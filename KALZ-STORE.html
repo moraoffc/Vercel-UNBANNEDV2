@@ -1,0 +1,2237 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>⚡ KALZ UNBAN V2 • SECURE LOGIN ⚡</title>
+  <link rel="icon" href="https://files.catbox.moe/ed5ajm.jpg" />
+
+  <!-- Manifest untuk Android WebAPK / Chrome -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0a0515">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="KALZ UNBAN V2">
+  <link rel="apple-touch-icon" href="https://files.catbox.moe/ejn7q9.jpeg">
+
+  <!-- Fonts Premium -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    :root {
+      --size: 320px;
+      --duration: 5s;
+      --bg: #0a0515;
+      --bg-gradient: linear-gradient(135deg, #0a0515 0%, #1a0b2e 50%, #2a0f3f 100%);
+      --accent: #ff3366;
+      --accent2: #6c5ce7;
+      --accent3: #00ffff;
+      --neon-pink: #ff00ff;
+      --neon-blue: #00ffff;
+      --muted: #b8b5c0;
+      --glass: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      --glow: 0 0 30px rgba(255, 51, 102, 0.3);
+      --mono: 'Share Tech Mono', monospace;
+      --ui: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+      --title: 'Orbitron', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: #fff;
+      font-family: var(--ui);
+      -webkit-font-smoothing: antialiased;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Animated Background */
+    .cyber-grid {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(108, 92, 231, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 51, 102, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridMove 20s linear infinite;
+      z-index: -2;
+    }
+
+    @keyframes gridMove {
+      0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+      100% { transform: perspective(500px) rotateX(60deg) translateY(40px); }
+    }
+
+    /* Floating Particles */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: var(--neon-blue);
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: floatParticle 20s linear infinite;
+    }
+
+    @keyframes floatParticle {
+      0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10% { opacity: 0.3; }
+      90% { opacity: 0.3; }
+      100% { transform: translateY(-100px) translateX(100px); opacity: 0; }
+    }
+
+    /* Gradient Blobs */
+    .blob {
+      position: fixed;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 51, 102, 0.1), transparent 70%);
+      border-radius: 50%;
+      filter: blur(80px);
+      z-index: -1;
+      animation: blobMove 20s ease-in-out infinite;
+    }
+
+    .blob-1 { top: -200px; right: -200px; background: radial-gradient(circle at 30% 30%, rgba(108, 92, 231, 0.1), transparent 70%); animation-delay: 0s; }
+    .blob-2 { bottom: -200px; left: -200px; background: radial-gradient(circle at 70% 70%, rgba(255, 0, 255, 0.1), transparent 70%); animation-delay: -10s; }
+
+    @keyframes blobMove {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(50px, 50px) scale(1.2); }
+    }
+
+    /* ===== LOGIN SCREEN (PERTAMA) ===== */
+    #loginScreen {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center, #1a0b2e 0%, #0a0515 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9000;
+      transition: opacity 0.5s ease;
+      padding: 20px;
+    }
+
+    #loginScreen.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .login-card {
+      max-width: 400px;
+      width: 100%;
+      background: rgba(10, 5, 21, 0.8);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 60px;
+      padding: 50px 40px;
+      box-shadow: 0 0 100px rgba(255, 0, 255, 0.3);
+      animation: cardFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes cardFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .login-icon {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid var(--neon-pink);
+      box-shadow: 0 0 50px var(--neon-pink);
+      animation: iconGlow 3s infinite;
+    }
+
+    @keyframes iconGlow {
+      0%, 100% { box-shadow: 0 0 50px var(--neon-pink); }
+      50% { box-shadow: 0 0 80px var(--neon-blue); }
+    }
+
+    .login-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .login-title {
+      font-family: var(--title);
+      font-size: 28px;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 2px;
+      margin-bottom: 5px;
+    }
+
+    .login-subtitle {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 12px;
+      font-family: var(--mono);
+      letter-spacing: 1px;
+    }
+
+    /* Form Login */
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .input-group {
+      position: relative;
+      width: 100%;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 16px;
+      z-index: 2;
+      transition: all 0.3s;
+    }
+
+    .login-input {
+      width: 100%;
+      padding: 18px 20px 18px 50px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 2px solid rgba(255, 255, 255, 0.05);
+      border-radius: 60px;
+      color: #fff;
+      font-size: 15px;
+      font-family: var(--ui);
+      transition: all 0.3s;
+    }
+
+    .login-input:focus {
+      outline: none;
+      border-color: var(--neon-blue);
+      background: rgba(0, 0, 0, 0.6);
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+    }
+
+    .login-input:focus + .input-icon {
+      color: var(--neon-blue);
+    }
+
+    .login-input::placeholder {
+      color: rgba(255, 255, 255, 0.2);
+      font-size: 14px;
+    }
+
+    /* Toggle Password */
+    .password-toggle {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      font-size: 16px;
+      z-index: 3;
+      transition: all 0.3s;
+    }
+
+    .password-toggle:hover {
+      color: var(--neon-blue);
+    }
+
+    /* Login Button */
+    .login-btn {
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
+      border: none;
+      border-radius: 60px;
+      color: #fff;
+      font-family: var(--title);
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: 2px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s;
+      margin-top: 10px;
+      box-shadow: 0 0 40px rgba(255, 0, 255, 0.5);
+    }
+
+    .login-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      transition: left 0.5s;
+    }
+
+    .login-btn:hover::before {
+      left: 100%;
+    }
+
+    .login-btn:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 60px var(--neon-pink), 0 0 60px var(--neon-blue);
+    }
+
+    .login-btn:active {
+      transform: scale(0.98);
+    }
+
+    .login-btn i {
+      margin: 0 8px;
+      font-size: 16px;
+    }
+
+    /* Error Message */
+    .login-error {
+      background: rgba(255, 51, 102, 0.1);
+      border-left: 3px solid var(--accent);
+      border-radius: 20px;
+      padding: 12px 18px;
+      font-size: 13px;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 15px;
+      animation: shake 0.5s ease;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-5px); }
+      40%, 80% { transform: translateX(5px); }
+    }
+
+    .login-error i {
+      font-size: 16px;
+    }
+
+    .login-error.hidden {
+      display: none;
+    }
+
+    /* ===== CONTACT BUTTONS ===== */
+    .contact-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 30px;
+      justify-content: center;
+    }
+
+    .contact-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 12px;
+      border: none;
+      border-radius: 60px;
+      font-family: var(--title);
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .contact-btn i {
+      font-size: 18px;
+    }
+
+    .contact-btn.whatsapp {
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      border: none;
+      box-shadow: 0 0 30px rgba(37, 211, 102, 0.3);
+    }
+
+    .contact-btn.whatsapp:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 50px #25D366;
+    }
+
+    .contact-btn.telegram {
+      background: linear-gradient(135deg, #0088cc, #0088cc);
+      border: none;
+      box-shadow: 0 0 30px rgba(0, 136, 204, 0.3);
+    }
+
+    .contact-btn.telegram:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 50px #0088cc;
+    }
+
+    .contact-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* ===== LOADING SCREEN (KEDUA) DENGAN VIDEO DAN TOMBOL LEWATI ===== */
+    #loadingScreen {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center, #1a0b2e 0%, #0a0515 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9500;
+      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: auto;
+    }
+
+    #loadingScreen.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .loading-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .loading-wrap {
+      width: var(--size);
+      aspect-ratio: 16 / 9;
+      border-radius: 30px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: 0 0 50px rgba(255, 0, 255, 0.5);
+      position: relative;
+    }
+
+    .loading-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue), var(--neon-pink));
+      border-radius: 32px;
+      animation: borderRotate 3s linear infinite;
+      z-index: -1;
+    }
+
+    @keyframes borderRotate {
+      0% { filter: blur(10px) hue-rotate(0deg); }
+      100% { filter: blur(10px) hue-rotate(360deg); }
+    }
+
+    .loading-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 28px;
+      pointer-events: none;
+    }
+
+    .loading-area {
+      width: var(--size);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .loading-text {
+      font-weight: 600;
+      letter-spacing: 2px;
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.7);
+      text-transform: uppercase;
+      font-family: var(--mono);
+    }
+
+    .loading-bar {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .loading-bar i {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue));
+      border-radius: 999px;
+      animation: fillBar 20s linear forwards; /* DURASI LOADING 20 DETIK */
+    }
+
+    @keyframes fillBar {
+      from { width: 0%; }
+      to { width: 100%; }
+    }
+
+    .dots {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--neon-blue);
+      opacity: 0.3;
+      animation: dotPulse 1.5s infinite;
+    }
+
+    .dot:nth-child(2) { animation-delay: 0.3s; background: var(--neon-pink); }
+    .dot:nth-child(3) { animation-delay: 0.6s; background: var(--accent); }
+
+    @keyframes dotPulse {
+      0%, 80%, 100% { opacity: 0.3; transform: scale(1); }
+      40% { opacity: 1; transform: scale(1.2); }
+    }
+
+    .loading-brand {
+      margin-top: 15px;
+      font-family: var(--title);
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    /* Tombol Lewati */
+    .skip-btn {
+      margin-top: 30px;
+      padding: 12px 30px;
+      background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
+      border: none;
+      border-radius: 60px;
+      color: #fff;
+      font-family: var(--title);
+      font-weight: 600;
+      font-size: 16px;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 0 30px rgba(255, 0, 255, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .skip-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 50px var(--neon-pink), 0 0 50px var(--neon-blue);
+    }
+
+    .skip-btn:active {
+      transform: scale(0.95);
+    }
+
+    .skip-btn i {
+      font-size: 18px;
+    }
+
+    /* ===== MAIN APP ===== */
+    #app {
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+      min-height: 100vh;
+      padding: 20px;
+      position: relative;
+    }
+
+    #app.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Topbar dengan menu titik tiga */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 20px;
+      margin-bottom: 30px;
+      background: rgba(10, 5, 21, 0.8);
+      border-radius: 60px;
+      position: relative;
+    }
+
+    .title-top {
+      font-family: var(--title);
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 1px;
+    }
+
+    .title-top i {
+      color: var(--neon-pink);
+      margin-right: 8px;
+    }
+
+    .version-badge {
+      background: rgba(255, 255, 255, 0.05);
+      color: rgba(255, 255, 255, 0.7);
+      padding: 5px 15px;
+      border-radius: 30px;
+      font-size: 11px;
+      font-weight: 500;
+      font-family: var(--mono);
+    }
+
+    /* Menu Toggle (titik tiga) */
+    .menu-toggle {
+      position: relative;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      transition: all 0.3s;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .menu-toggle:hover {
+      background: rgba(255, 51, 102, 0.2);
+      border-color: var(--accent);
+    }
+
+    .menu-toggle i {
+      font-size: 20px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .menu-toggle:hover i {
+      color: var(--accent);
+    }
+
+    /* Dropdown Menu */
+    .dropdown-menu {
+      position: absolute;
+      top: 60px;
+      right: 0;
+      background: rgba(10, 5, 21, 0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 30px;
+      padding: 15px;
+      min-width: 220px;
+      box-shadow: 0 0 50px rgba(255, 0, 255, 0.3);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+
+    .dropdown-menu.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-menu .menu-item {
+      padding: 12px 15px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: var(--ui);
+      border: 1px solid transparent;
+    }
+
+    .dropdown-menu .menu-item i {
+      width: 20px;
+      color: var(--neon-blue);
+      font-size: 16px;
+    }
+
+    .dropdown-menu .menu-item:hover {
+      background: rgba(255, 51, 102, 0.1);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .dropdown-menu .menu-item:hover i {
+      color: var(--accent);
+    }
+
+    .dropdown-menu .divider {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.1);
+      margin: 8px 0;
+    }
+
+    /* Logout Button (di dalam menu) */
+    .menu-logout-btn {
+      background: transparent;
+      border: none;
+      width: 100%;
+      text-align: left;
+      font-size: 14px;
+      font-family: var(--ui);
+    }
+
+    /* Tab Navigation */
+    .tab-nav {
+      display: flex;
+      gap: 10px;
+      margin: 20px 0 30px;
+      padding: 5px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 60px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 12px;
+      background: transparent;
+      border: none;
+      border-radius: 60px;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: var(--ui);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .tab-btn i {
+      font-size: 14px;
+    }
+
+    .tab-btn.active {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    .tab-btn.active i {
+      color: var(--neon-blue);
+    }
+
+    /* Tab Content */
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Robot Card dengan foto yang bisa di klik */
+    .robot-card {
+      max-width: 280px;
+      margin: 30px auto;
+      padding: 25px;
+      background: rgba(10, 5, 21, 0.8);
+      border-radius: 40px;
+      text-align: center;
+    }
+
+    .robot-face {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 15px;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 0 30px rgba(255, 0, 255, 0.3);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .robot-face:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 50px var(--neon-blue);
+    }
+
+    .robot-face:active {
+      transform: scale(0.95);
+    }
+
+    .robot-face img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .robot-face::after {
+      content: "🔗 KLIK UNTUK BUKA LINK";
+      position: absolute;
+      bottom: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: var(--neon-blue);
+      font-size: 10px;
+      padding: 4px 8px;
+      border-radius: 20px;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      font-family: var(--mono);
+      border: 1px solid var(--neon-blue);
+    }
+
+    .robot-face:hover::after {
+      opacity: 1;
+    }
+
+    .robot-title {
+      font-family: var(--title);
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 5px;
+    }
+
+    .robot-subtitle {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 12px;
+      letter-spacing: 1px;
+      font-family: var(--mono);
+    }
+
+    /* Business Badge */
+    .business-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(0, 255, 255, 0.1);
+      color: var(--neon-blue);
+      padding: 4px 12px;
+      border-radius: 30px;
+      font-size: 11px;
+      font-family: var(--mono);
+      margin-top: 8px;
+    }
+
+    .business-badge i {
+      font-size: 10px;
+    }
+
+    /* Form Container */
+    .form-container {
+      max-width: 320px;
+      margin: 0 auto;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      margin: 20px 0 8px;
+      color: rgba(255, 255, 255, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding-left: 5px;
+    }
+
+    .form-label i {
+      color: var(--neon-blue);
+      margin-right: 6px;
+      font-size: 12px;
+    }
+
+    .input-group {
+      position: relative;
+      width: 100%;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 14px;
+      z-index: 2;
+    }
+
+    .input, .select-custom {
+      width: 100%;
+      padding: 14px 15px 14px 45px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 40px;
+      color: #fff;
+      font-size: 14px;
+      font-family: var(--ui);
+      transition: all 0.2s;
+    }
+
+    .input:focus, .select-custom:focus {
+      outline: none;
+      border-color: var(--neon-blue);
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .select-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    .select-wrapper::after {
+      content: '\f078';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      position: absolute;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 12px;
+      pointer-events: none;
+    }
+
+    /* Textarea */
+    .textarea-custom {
+      width: 100%;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 30px;
+      color: #fff;
+      font-size: 13px;
+      font-family: var(--ui);
+      resize: none;
+      min-height: 120px;
+    }
+
+    .textarea-custom:focus {
+      outline: none;
+      border-color: var(--neon-blue);
+    }
+
+    /* Template Note */
+    .template-note {
+      background: rgba(0, 255, 255, 0.05);
+      border-left: 2px solid var(--neon-blue);
+      padding: 12px 15px;
+      border-radius: 20px;
+      margin: 15px 0;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.6;
+    }
+
+    .template-note i {
+      color: var(--neon-blue);
+      margin-right: 8px;
+    }
+
+    /* Button */
+    .btn-premium {
+      width: 100%;
+      padding: 16px;
+      margin: 25px 0 15px;
+      background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
+      border: none;
+      border-radius: 60px;
+      color: #fff;
+      font-family: var(--title);
+      font-weight: 600;
+      font-size: 16px;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      opacity: 0.9;
+    }
+
+    .btn-premium:hover {
+      opacity: 1;
+    }
+
+    .btn-premium:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .btn-premium i {
+      margin: 0 8px;
+      font-size: 14px;
+    }
+
+    /* Status Area */
+    .status-area {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 30px;
+      padding: 12px 18px;
+      margin: 15px 0;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.7);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .status-area i {
+      color: var(--neon-blue);
+      font-size: 14px;
+    }
+
+    .small-note {
+      text-align: center;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.3);
+      letter-spacing: 0.5px;
+      padding: 15px;
+      margin-top: 20px;
+      font-family: var(--mono);
+    }
+
+    .small-note i {
+      color: var(--neon-pink);
+      margin: 0 4px;
+      font-size: 10px;
+    }
+
+    /* Welcome Popup */
+    #welcomeBox {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 10000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    #welcomeBox.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #welcomeContent {
+      background: #0a0515;
+      padding: 40px 60px;
+      border-radius: 40px;
+      text-align: center;
+      box-shadow: 0 0 50px rgba(255, 0, 255, 0.2);
+      animation: welcomePop 0.5s ease;
+    }
+
+    @keyframes welcomePop {
+      from {
+        opacity: 0;
+        transform: scale(0.8) translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .gradientText {
+      font-family: var(--title);
+      font-weight: 700;
+      font-size: 24px;
+      color: #fff;
+      letter-spacing: 1px;
+    }
+
+    /* ===== CREATE ACCOUNT POPUP ===== */
+    #createAccountPopup {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      z-index: 12000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    #createAccountPopup.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .create-card {
+      max-width: 350px;
+      width: 90%;
+      background: rgba(10, 5, 21, 0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50px;
+      padding: 40px 30px;
+      text-align: center;
+      box-shadow: 0 0 100px rgba(255, 0, 255, 0.3);
+      animation: createPop 0.3s ease;
+    }
+
+    @keyframes createPop {
+      from {
+        opacity: 0;
+        transform: scale(0.8) translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .create-icon {
+      font-size: 50px;
+      color: var(--neon-blue);
+      margin-bottom: 20px;
+    }
+
+    .create-title {
+      font-family: var(--title);
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    .create-input {
+      width: 100%;
+      padding: 15px 20px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 2px solid rgba(255, 255, 255, 0.05);
+      border-radius: 40px;
+      color: #fff;
+      font-size: 14px;
+      font-family: var(--ui);
+      margin-bottom: 15px;
+      transition: all 0.3s;
+    }
+
+    .create-input:focus {
+      outline: none;
+      border-color: var(--neon-blue);
+      background: rgba(0, 0, 0, 0.6);
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+    }
+
+    .create-input::placeholder {
+      color: rgba(255, 255, 255, 0.2);
+    }
+
+    .create-buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .create-btn {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      border-radius: 40px;
+      font-family: var(--title);
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .create-btn.submit {
+      background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
+      color: #fff;
+      box-shadow: 0 0 30px rgba(255, 0, 255, 0.3);
+    }
+
+    .create-btn.submit:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 50px var(--neon-pink);
+    }
+
+    .create-btn.cancel {
+      background: rgba(255, 255, 255, 0.05);
+      color: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .create-btn.cancel:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    /* ===== LOGOUT CONFIRMATION POPUP ===== */
+    #logoutConfirm {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      z-index: 11000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    #logoutConfirm.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .confirm-card {
+      max-width: 350px;
+      width: 90%;
+      background: rgba(10, 5, 21, 0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50px;
+      padding: 40px 30px;
+      text-align: center;
+      box-shadow: 0 0 100px rgba(255, 0, 255, 0.3);
+      animation: confirmPop 0.3s ease;
+    }
+
+    @keyframes confirmPop {
+      from {
+        opacity: 0;
+        transform: scale(0.8) translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .confirm-icon {
+      font-size: 60px;
+      color: var(--neon-pink);
+      margin-bottom: 20px;
+      animation: iconWarning 2s infinite;
+    }
+
+    @keyframes iconWarning {
+      0%, 100% { transform: scale(1); color: var(--neon-pink); }
+      50% { transform: scale(1.1); color: var(--neon-blue); }
+    }
+
+    .confirm-title {
+      font-family: var(--title);
+      font-size: 24px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .confirm-message {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 14px;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .confirm-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .confirm-btn {
+      flex: 1;
+      padding: 15px;
+      border: none;
+      border-radius: 50px;
+      font-family: var(--title);
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .confirm-btn.yes {
+      background: linear-gradient(135deg, #ff3366, #ff00ff);
+      color: #fff;
+      box-shadow: 0 0 30px rgba(255, 51, 102, 0.5);
+    }
+
+    .confirm-btn.yes:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 50px #ff3366;
+    }
+
+    .confirm-btn.no {
+      background: rgba(255, 255, 255, 0.05);
+      color: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .confirm-btn.no:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 30px;
+      margin-top: 40px;
+      color: rgba(255, 255, 255, 0.2);
+      font-size: 11px;
+      font-family: var(--mono);
+    }
+
+    .footer i {
+      color: rgba(255, 255, 255, 0.2);
+      margin: 0 4px;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      :root {
+        --size: 280px;
+      }
+      
+      .login-card {
+        padding: 40px 25px;
+      }
+      
+      .login-title {
+        font-size: 24px;
+      }
+      
+      .login-icon {
+        width: 80px;
+        height: 80px;
+      }
+      
+      .robot-card {
+        max-width: 260px;
+        padding: 20px;
+      }
+      
+      .robot-face {
+        width: 100px;
+        height: 100px;
+      }
+      
+      .robot-title {
+        font-size: 18px;
+      }
+      
+      .gradientText {
+        font-size: 20px;
+      }
+      
+      #welcomeContent {
+        padding: 30px 40px;
+      }
+
+      .tab-btn {
+        font-size: 12px;
+        padding: 10px;
+      }
+
+      .tab-btn i {
+        font-size: 12px;
+      }
+
+      .confirm-card, .create-card {
+        padding: 30px 20px;
+      }
+      
+      .confirm-title, .create-title {
+        font-size: 20px;
+      }
+
+      .robot-face::after {
+        font-size: 8px;
+        bottom: -25px;
+      }
+
+      .contact-buttons {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .dropdown-menu {
+        min-width: 180px;
+      }
+
+      .skip-btn {
+        padding: 10px 25px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Elements -->
+  <div class="cyber-grid"></div>
+  <div class="particles" id="particles"></div>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+
+  <!-- LOGIN SCREEN (PERTAMA) -->
+  <div id="loginScreen">
+    <div class="login-card">
+      <div class="login-header">
+        <div class="login-icon">
+          <img src="https://files.catbox.moe/la9j76.jpg" alt="Logo">
+        </div>
+        <div class="login-title">KALZ UNBAN</div>
+        <div class="login-subtitle">SECURE ACCESS</div>
+      </div>
+
+      <div class="login-form">
+        <div class="input-group">
+          <i class="fas fa-user input-icon"></i>
+          <input type="text" id="username" class="login-input" placeholder="Username" autocomplete="off">
+        </div>
+
+        <div class="input-group">
+          <i class="fas fa-lock input-icon"></i>
+          <input type="password" id="password" class="login-input" placeholder="Password" autocomplete="off">
+          <i class="fas fa-eye password-toggle" id="togglePassword" onclick="togglePassword()"></i>
+        </div>
+
+        <!-- Error Message -->
+        <div id="loginError" class="login-error hidden">
+          <i class="fas fa-exclamation-circle"></i>
+          <span>Username atau password salah!</span>
+        </div>
+
+        <button class="login-btn" onclick="handleLogin()">
+          <i class="fas fa-lock-open"></i>
+          LOGIN
+          <i class="fas fa-arrow-right"></i>
+        </button>
+
+        <!-- CONTACT BUTTONS -->
+        <div class="contact-buttons">
+          <button class="contact-btn whatsapp" onclick="openWhatsApp()">
+            <i class="fab fa-whatsapp"></i>
+            WhatsApp
+          </button>
+          <button class="contact-btn telegram" onclick="openTelegram()">
+            <i class="fab fa-telegram-plane"></i>
+            Telegram
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOADING SCREEN (KEDUA) DENGAN VIDEO DAN TOMBOL LEWATI - DURASI 20 DETIK -->
+  <div id="loadingScreen" class="hidden">
+    <div class="loading-container">
+      <div class="loading-wrap">
+        <video class="loading-video" autoplay loop muted playsinline disablePictureInPicture>
+          <source src="https://files.catbox.moe/8x6v51.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+
+      <div class="loading-area">
+        <div class="loading-text">LOADING SYSTEM</div>
+        <div class="loading-bar"><i id="loadingBar"></i></div>
+        <div class="dots">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
+
+      <div class="loading-brand">KALZ UNBAN V2 • SECURE</div>
+
+      <!-- TOMBOL LEWATI -->
+      <button class="skip-btn" onclick="skipLoading()">
+        <i class="fas fa-forward"></i>
+        LEWATI
+      </button>
+    </div>
+  </div>
+
+  <!-- WELCOME POPUP -->
+  <div id="welcomeBox" aria-hidden="true">
+    <div id="welcomeContent">
+      <div class="gradientText">SELAMAT DATANG</div>
+    </div>
+  </div>
+
+  <!-- CREATE ACCOUNT POPUP -->
+  <div id="createAccountPopup">
+    <div class="create-card">
+      <div class="create-icon">
+        <i class="fas fa-user-plus"></i>
+      </div>
+      <div class="create-title">CREATE NEW AKUN</div>
+      
+      <input type="text" id="newUsername" class="create-input" placeholder="Username Baru" autocomplete="off">
+      <input type="password" id="newPassword" class="create-input" placeholder="Password Baru" autocomplete="off">
+      
+      <div class="create-buttons">
+        <button class="create-btn submit" onclick="createNewAccount()">
+          <i class="fas fa-check"></i> BUAT
+        </button>
+        <button class="create-btn cancel" onclick="closeCreatePopup()">
+          <i class="fas fa-times"></i> BATAL
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOGOUT CONFIRMATION POPUP -->
+  <div id="logoutConfirm">
+    <div class="confirm-card">
+      <div class="confirm-icon">
+        <i class="fas fa-exclamation-triangle"></i>
+      </div>
+      <div class="confirm-title">KONFIRMASI LOGOUT</div>
+      <div class="confirm-message">
+        Apakah Anda yakin ingin keluar?
+      </div>
+      <div class="confirm-buttons">
+        <button class="confirm-btn yes" onclick="logoutYes()">
+          <i class="fas fa-check"></i> YES
+        </button>
+        <button class="confirm-btn no" onclick="logoutNo()">
+          <i class="fas fa-times"></i> NO
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN APP -->
+  <div id="app" role="main" aria-hidden="true">
+    <div class="topbar">
+      <div class="title-top">
+        <i class="fas fa-skull"></i>
+        KALZ UNBAN V2
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <div class="version-badge">
+          BUSINESS EDITION
+        </div>
+        
+        <!-- Menu Titik Tiga -->
+        <div class="menu-toggle" onclick="toggleMenu()">
+          <i class="fas fa-ellipsis-vertical"></i>
+        </div>
+        
+        <!-- Dropdown Menu -->
+        <div class="dropdown-menu" id="dropdownMenu">
+          <div class="menu-item" onclick="showCreateAccountPopup()">
+            <i class="fas fa-plus-circle"></i>
+            Create New Akun
+          </div>
+          <div class="divider"></div>
+          <div class="menu-item menu-logout-btn" onclick="showLogoutConfirm()">
+            <i class="fas fa-sign-out-alt"></i>
+            Logout
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="tab-nav">
+      <button class="tab-btn active" id="tabRegularBtn" onclick="switchTab('regular')">
+        <i class="fas fa-user"></i> REGULAR
+      </button>
+      <button class="tab-btn" id="tabBusinessBtn" onclick="switchTab('business')">
+        <i class="fas fa-building"></i> BUSINESS
+      </button>
+    </div>
+
+    <!-- REGULAR TAB -->
+    <div class="tab-content active" id="regularTab">
+      <div class="robot-card">
+        <!-- Foto yang bisa di klik - REGULAR -->
+        <div class="robot-face" onclick="window.open('https://files.catbox.moe/egt6at.jpg', '_blank')">
+          <img src="https://files.catbox.moe/egt6at.jpg" alt="Logo Robot">
+        </div>
+        <div class="robot-title">UNBAN SYSTEM</div>
+        <div class="robot-subtitle">WHATSAPP REGULAR</div>
+      </div>
+
+      <div class="form-container">
+        <div class="form-label">
+          <i class="fas fa-phone-alt"></i>
+          NOMOR WHATSAPP
+        </div>
+        <div class="input-group">
+          <i class="fas fa-hashtag input-icon"></i>
+          <input type="tel" id="nomor" class="input" placeholder="628xxxxxxxxx" inputmode="tel" aria-required="true" />
+        </div>
+
+        <div class="form-label">
+          <i class="fas fa-shield-alt"></i>
+          METODE UNBAN
+        </div>
+        <div class="select-wrapper">
+          <select id="alasan" class="select-custom" aria-required="true">
+            <option value="" disabled selected>PILIH METODE</option>
+            <option value="permafresh">PERMA FRESH</option>
+            <option value="SPAM">SPAM</option>
+            <option value="PERMA HARD">PERMA HARD</option>
+            <option value="PERMASEMINGGU">PERMA SEMINGGU</option>
+            <option value="opsi5">PERMA BATU</option>
+          </select>
+        </div>
+
+        <button class="btn-premium" id="sendBtn" aria-label="Kirim Banding">
+          <i class="fas fa-bolt"></i>
+          UNBANNED
+          <i class="fas fa-bolt"></i>
+        </button>
+
+        <div class="status-area" id="statusArea">
+          <i class="fas fa-circle-info"></i>
+          <span>Siap melakukan unban tapi membutuhkan 1-6 jam buat jebol</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- BUSINESS TAB -->
+    <div class="tab-content" id="businessTab">
+      <div class="robot-card">
+        <!-- Foto yang bisa di klik - BUSINESS -->
+        <div class="robot-face" onclick="window.open('https://files.catbox.moe/egt6at.jpg', '_blank')">
+          <img src="https://files.catbox.moe/egt6at.jpg" alt="Logo Robot">
+        </div>
+        <div class="robot-title">BUSINESS UNBAN</div>
+        <div class="robot-subtitle">WHATSAPP BUSINESS</div>
+        <div class="business-badge">
+          <i class="fas fa-building"></i> OFFICIAL SUPPORT
+        </div>
+      </div>
+
+      <div class="form-container">
+        <div class="form-label">
+          <i class="fas fa-phone-alt"></i>
+          NOMOR WHATSAPP BUSINESS
+        </div>
+        <div class="input-group">
+          <i class="fas fa-building input-icon"></i>
+          <input type="tel" id="businessNomor" class="input" placeholder="628xxxxxxxxx" inputmode="tel" aria-required="true" />
+        </div>
+
+        <div class="form-label">
+          <i class="fas fa-store"></i>
+          NAMA BISNIS
+        </div>
+        <div class="input-group">
+          <i class="fas fa-tag input-icon"></i>
+          <input type="text" id="businessName" class="input" placeholder="Contoh: Toko Makmur" />
+        </div>
+
+        <div class="form-label">
+          <i class="fas fa-envelope"></i>
+          TEMPLATE PESAN
+        </div>
+        <div class="template-note">
+          <i class="fas fa-quote-right"></i>
+          Selamat sore team whatsapp. Sore ini saat saya sedang menggunakan whatsapp tiba-tiba akun saya terblokir padahal saya menggunakan whatsapp sesuai ketentuan, terima kasih banyak sudah membantu membuka kembali akun saya
+        </div>
+
+        <div class="form-label">
+          <i class="fas fa-file-lines"></i>
+          PREVIEW PESAN
+        </div>
+        <textarea class="textarea-custom" id="businessMessagePreview" readonly rows="5">
+Selamat sore team whatsapp. 
+
+Sore ini saat saya sedang menggunakan whatsapp business untuk bisnis saya, tiba-tiba akun saya terblokir padahal saya menggunakan whatsapp sesuai ketentuan. 
+
+Saya sangat membutuhkan akun ini untuk operasional bisnis sehari-hari. 
+
+Terima kasih banyak sudah membantu membuka kembali akun saya.
+        </textarea>
+
+        <button class="btn-premium" id="sendBusinessBtn" aria-label="Kirim Banding Business">
+          <i class="fas fa-building"></i>
+          UNBAN BUSINESS
+          <i class="fas fa-bolt"></i>
+        </button>
+
+        <div class="status-area" id="businessStatusArea">
+          <i class="fas fa-circle-info"></i>
+          <span>Siap melakukan unban business tapi membutuhkan 1-6 jam buat jebol</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="small-note">
+      <i class="fas fa-crown"></i>
+      VIP METODE UNBANNED WHATSAPP
+      <i class="fas fa-crown"></i>
+    </div>
+
+    <div class="footer">
+      <i class="fas fa-skull"></i>
+      KALZ UNBAN V2 • SECURE LOGIN
+      <i class="fas fa-skull"></i>
+    </div>
+  </div>
+
+  <script>
+    // Generate Particles
+    function generateParticles() {
+      const particlesContainer = document.querySelector('.particles');
+      for (let i = 0; i < 30; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 10 + 's';
+        particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+        particlesContainer.appendChild(particle);
+      }
+    }
+    generateParticles();
+
+    /* ===== FUNGSI UNTUK TOMBOL KONTAK ===== */
+    window.openWhatsApp = function() {
+      const message = encodeURIComponent("HALO SAYA ADALAH ORANG YG IGIN BELI KEY SAMA USERNAME ANDA SEHARGA 5K");
+      window.open(`https://wa.me/6285150887847?text=${message}`, '_blank');
+    };
+
+    window.openTelegram = function() {
+      const message = encodeURIComponent("HALO SAYA ADALAH ORANG YG IGIN BELI KEY SAMA USERNAME ANDA SEHARGA 5K");
+      window.open(`https://t.me/Kalzstore339?text=${message}`, '_blank');
+    };
+
+    /* ===== ELEMENTS ===== */
+    const loginScreen = document.getElementById('loginScreen');
+    const loadingScreen = document.getElementById('loadingScreen');
+    const app = document.getElementById('app');
+    const welcomeBox = document.getElementById('welcomeBox');
+    const logoutConfirm = document.getElementById('logoutConfirm');
+    const createAccountPopup = document.getElementById('createAccountPopup');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+
+    // Variabel untuk mengontrol timeout
+    let loadingTimeout;
+
+    // Tutup dropdown jika klik di luar
+    document.addEventListener('click', function(event) {
+      if (!event.target.closest('.menu-toggle') && !event.target.closest('.dropdown-menu')) {
+        dropdownMenu.classList.remove('active');
+      }
+    });
+
+    window.toggleMenu = function() {
+      dropdownMenu.classList.toggle('active');
+    };
+
+    /* ===== FUNGSI CREATE ACCOUNT ===== */
+    window.showCreateAccountPopup = function() {
+      createAccountPopup.classList.add('active');
+      dropdownMenu.classList.remove('active'); // Tutup menu setelah klik
+    };
+
+    window.closeCreatePopup = function() {
+      createAccountPopup.classList.remove('active');
+      // Clear input
+      document.getElementById('newUsername').value = '';
+      document.getElementById('newPassword').value = '';
+    };
+
+    window.createNewAccount = function() {
+      const newUsername = document.getElementById('newUsername').value.trim();
+      const newPassword = document.getElementById('newPassword').value.trim();
+
+      if (!newUsername || !newPassword) {
+        alert('Username dan Password harus diisi!');
+        return;
+      }
+
+      // Simpan ke localStorage (contoh sederhana)
+      localStorage.setItem('customUsername', newUsername);
+      localStorage.setItem('customPassword', newPassword);
+      
+      alert(`Akun baru berhasil dibuat!\nUsername: ${newUsername}\nPassword: ${newPassword}\n\nSilakan login dengan akun baru Anda.`);
+      closeCreatePopup();
+      
+      // Optional: Langsung isi form login dengan akun baru
+      document.getElementById('username').value = newUsername;
+      document.getElementById('password').value = newPassword;
+    };
+
+    /* ===== FUNGSI SKIP LOADING ===== */
+    window.skipLoading = function() {
+      // Hentikan timeout yang sudah dijadwalkan
+      if (loadingTimeout) {
+        clearTimeout(loadingTimeout);
+      }
+      
+      // Sembunyikan loading, tampilkan app
+      loadingScreen.classList.add('hidden');
+      app.classList.add('visible');
+      app.setAttribute("aria-hidden", "false");
+      
+      // Hentikan video
+      const video = document.querySelector('.loading-video');
+      if (video) video.pause();
+      
+      // Tampilkan welcome popup
+      setTimeout(() => {
+        welcomeBox.classList.add("active");
+        welcomeBox.setAttribute("aria-hidden", "false");
+        setTimeout(() => {
+          welcomeBox.classList.remove("active");
+          welcomeBox.setAttribute("aria-hidden", "true");
+        }, 2000);
+      }, 200);
+    };
+
+    /* ===== LOGIN FUNCTION ===== */
+    window.handleLogin = function() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const errorEl = document.getElementById('loginError');
+
+      // Cek credentials: default "kalz"/"unbanned" atau akun yang dibuat
+      const customUsername = localStorage.getItem('customUsername');
+      const customPassword = localStorage.getItem('customPassword');
+      
+      const isValidDefault = (username === 'kalz' && password === 'unbanned');
+      const isValidCustom = (customUsername && customPassword && username === customUsername && password === customPassword);
+
+      if (isValidDefault || isValidCustom) {
+        loginScreen.classList.add('hidden');
+        loadingScreen.classList.remove('hidden');
+        
+        const video = document.querySelector('.loading-video');
+        if (video) video.play().catch(e => console.log('Video autoplay failed:', e));
+
+        // Simpan timeout ID agar bisa dibatalkan jika tombol skip ditekan
+        loadingTimeout = setTimeout(() => {
+          loadingScreen.classList.add('hidden');
+          app.classList.add('visible');
+          app.setAttribute("aria-hidden", "false");
+          
+          if (video) video.pause();
+          
+          setTimeout(() => {
+            welcomeBox.classList.add("active");
+            welcomeBox.setAttribute("aria-hidden", "false");
+            setTimeout(() => {
+              welcomeBox.classList.remove("active");
+              welcomeBox.setAttribute("aria-hidden", "true");
+            }, 2000);
+          }, 200);
+        }, 20000); // DURASI LOADING 20 DETIK
+      } else {
+        errorEl.classList.remove('hidden');
+        
+        document.getElementById('username').style.animation = 'shake 0.5s ease';
+        document.getElementById('password').style.animation = 'shake 0.5s ease';
+        
+        setTimeout(() => {
+          document.getElementById('username').style.animation = '';
+          document.getElementById('password').style.animation = '';
+        }, 500);
+      }
+    };
+
+    window.togglePassword = function() {
+      const passwordInput = document.getElementById('password');
+      const toggleIcon = document.getElementById('togglePassword');
+      
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleIcon.classList.remove('fa-eye');
+        toggleIcon.classList.add('fa-eye-slash');
+      } else {
+        passwordInput.type = 'password';
+        toggleIcon.classList.remove('fa-eye-slash');
+        toggleIcon.classList.add('fa-eye');
+      }
+    };
+
+    window.showLogoutConfirm = function() {
+      logoutConfirm.classList.add('active');
+      dropdownMenu.classList.remove('active'); // Tutup menu
+    };
+
+    window.logoutYes = function() {
+      logoutConfirm.classList.remove('active');
+      app.classList.remove('visible');
+      loginScreen.classList.remove('hidden');
+      
+      document.getElementById('username').value = '';
+      document.getElementById('password').value = '';
+      document.getElementById('loginError').classList.add('hidden');
+    };
+
+    window.logoutNo = function() {
+      logoutConfirm.classList.remove('active');
+    };
+
+    document.getElementById('username').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') handleLogin();
+    });
+    
+    document.getElementById('password').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') handleLogin();
+    });
+
+    window.switchTab = function(tab) {
+      const regularTab = document.getElementById('regularTab');
+      const businessTab = document.getElementById('businessTab');
+      const tabRegularBtn = document.getElementById('tabRegularBtn');
+      const tabBusinessBtn = document.getElementById('tabBusinessBtn');
+
+      if (tab === 'regular') {
+        regularTab.classList.add('active');
+        businessTab.classList.remove('active');
+        tabRegularBtn.classList.add('active');
+        tabBusinessBtn.classList.remove('active');
+      } else {
+        regularTab.classList.remove('active');
+        businessTab.classList.add('active');
+        tabRegularBtn.classList.remove('active');
+        tabBusinessBtn.classList.add('active');
+      }
+    };
+
+    /* ===== REGULAR TAB LOGIC ===== */
+    const sendBtn = document.getElementById('sendBtn');
+    const statusEl = document.getElementById('statusArea');
+    const nomorInput = document.getElementById('nomor');
+    const alasanSelect = document.getElementById('alasan');
+
+    function enc(v) { return encodeURIComponent(v || ''); }
+    function isAndroid() { return /Android/i.test(navigator.userAgent); }
+    
+    function setStatus(t) { 
+      statusEl.innerHTML = `<i class="fas fa-circle-info"></i><span>${t}</span>`; 
+    }
+
+    function normalizeNumber(n) {
+      if (!n) return n;
+      const s = n.trim().replace(/\s+/g, '');
+      if (/^[0][0-9]+$/.test(s)) return '62' + s.slice(1);
+      if (/^\+/.test(s)) return s;
+      return s;
+    }
+
+    function buildTemplate(nomor, alasan) {
+      const tampilNomor = (nomor.startsWith('+') || nomor.startsWith('62')) ? nomor : ('+' + nomor);
+
+      switch(alasan) {
+        case "permafresh":
+          return {
+            to: 'support@support.whatsapp.com',
+            subject: 'Hello whatsapp developer, please help me.',
+            body: `Hello developer, my Whatsapp is Vixzz. I would like to ask for help regarding my account being blocked a few hours ago. I don't know the exact reason, but when I woke up and wanted to chat with my girlfriend, my Whatsapp account was blocked permanently. Here is my blocked Whatsapp number:\n${tampilNomor} I beg you to restore it immediately, thank you.`
+          };
+        case "SPAM":
+          return {
+            to: 'support@support.whatsapp.com',
+            subject: 'tolong saya',
+            body: `Hallo developer whatsapp saya vixzz salah satu pengguna whatsapp dari tahun 2023 dan saya saat ini ingin mengeluhkan atas pemblockiran akun whatsapp saya dengan alasan spam pada tanggal [ tanggal ke band ], ini sangat lah aneh karena saya sudah sering membaca layanan ketentuan aplikasi whatsapp dan sudah mematuhinya juga selama 2/3 tahun terakhir dan saya percaya ini adalah kesalahan sistem whatsapp yang salah mendeteksi kesalahan sehingga mungkin hanya chatan biasa pun bisa di anggap spam dan di blockir. Saya mohon untuk pihak whatsapp fix bug ini karena sangat meresahkan dan buka kan akun whatsapp saya [ ${tampilNomor} ] secepat mungkin karena saya ingin menghubungi keluarga saya yang kini sedang ada di luar kota dan saya menyayangi nya, terima kasih.`
+          };
+        case "PERMA HARD":
+          return {
+            to: 'support@support.whatsapp.com',
+            subject: `please unblock this WhatsApp account [ ${tampilNomor} ] its a system error`,
+            body: `Hi developer, I'm contacting you via WhatsApp to request a review of my WhatsApp account, which has been blocked for no apparent reason. I've already requested a review through the WhatsApp application, but the block hasn't been lifted. I urgently need that WhatsApp account, as I've mentioned in the Gmail subject. Sorry for bothering you, but I need my WhatsApp account back now. Thank you.`
+          };
+        case "PERMASEMINGGU":
+          return {
+            to: 'support@support.whatsapp.com',
+            subject: 'help me plss',
+            body: `Hi WhatsApp Developer, I'm vixzz. My WhatsApp account (+${tampilNomor}) was blocked without reason. I always follow WhatsApp's Terms of Service, use the official app, never spam, and behave respectfully. I believe this is a system error. Please review and restore my account. Thank you for your attention and help.`
+          };
+        case "opsi5":
+          return {
+            to: 'support@support.whatsapp.com',
+            subject: 'hi',
+            body: `Hizmet şartlarınızı ihlal etmedim, hesabı açıklanamaz bir şekilde yasakladınız. Hesap etkinliklerimi inceledikten sonra, WhatsApp a erişebilmem için kısıtlamayı hızla kaldırırsınız. Çünkü hesabım yanlışlıkla yasaklandı 
+
+Şartlarınızı veya politikanızı ihlal ettiğimi kabul ediyorum ve bunun için gerçekten üzgünüm lütfen bir şans verin ve yasağı hesabımdan kaldırın ${tampilNomor} isim Satya Budist gursarai
+
+Görüşleriniz için teşekkürler
+Hindistan lıyım, ülke kodum ${tampilNomor}
+Yasal adım Satya Budist gursarai
+Umarım bu SIM kartın yeni sahibi olduğum için WhatsApp hesap numaramdan kısıtlamalarınızı kaldırırsınız ${tampilNomor}
+
+Ve o kaldırılmalıdır, aksi takdirde WhatsApp ın derecelendirmesini rahatsız etmeyeceksiniz Ki amaiyo chod hoga kardeş ke lado`
+          };
+        default:
+          return {
+            to: 'support@support.whatsapp.com',
+            subject: `My WhatsApp number was blocked ${tampilNomor}`,
+            body: `प्रिय व्हाट्सएप सपोर्ट टीम,
+
+मुझे आशा है कि यह संदेश आपको अच्छी तरह से मिल जाएगा ।  मैं अपने व्हाट्सएप अकाउंट पर प्रतिबंध की अपील करने के लिए लिख रहा हूं ।  मैं समझता हूं कि व्हाट्सएप की सेवा की शर्तों के उल्लंघन के कारण मेरे खाते पर प्रतिबंध लगा दिया गया था, और मैं किसी भी अनजाने कार्यों के लिए ईमानदारी से माफी मांगता हूं जिसके कारण यह हो सकता है । 
+
+मैं व्हाट्सएप को एक आवश्यक संचार उपकरण और समुदाय के रूप में महत्व देता हूं, और मैं व्हाट्सएप की नीतियों और दिशानिर्देशों का पालन करने के लिए प्रतिबद्ध हूं ।  मैं कृपया अपने मामले की समीक्षा और अपने खाते पर प्रतिबंध हटाने का अनुरोध करता हूं ताकि मैं जिम्मेदारी से व्हाट्सएप का उपयोग करना जारी रख सकूं । 
+
+कृपया नीचे कुछ जानकारी प्राप्त करें जो आपकी समीक्षा के लिए सहायक हो सकती हैं: - मेरा पंजीकृत फोन नंबर.`
+          };
+      }
+    }
+
+    function buildIntentUrl(t) {
+      return `intent://compose?to=${enc(t.to)}&subject=${enc(t.subject)}&body=${enc(t.body)}#Intent;scheme=mailto;package=com.google.android.gm;end`;
+    }
+    
+    function buildMailtoUrl(t) {
+      return `mailto:${enc(t.to)}?subject=${enc(t.subject)}&body=${enc(t.body)}`;
+    }
+    
+    function buildGmailWebUrl(t) {
+      return `https://mail.google.com/mail/?view=cm&fs=1&to=${enc(t.to)}&su=${enc(t.subject)}&body=${enc(t.body)}`;
+    }
+
+    sendBtn.addEventListener('click', () => {
+      let nomor = (nomorInput.value || '').trim();
+      let alasan = (alasanSelect.value || '');
+
+      if (!nomor || !alasan) { 
+        setStatus("Mohon isi nomor & pilih metode unban."); 
+        return; 
+      }
+
+      nomor = normalizeNumber(nomor);
+      const tpl = buildTemplate(nomor, alasan);
+
+      const intentUrl = buildIntentUrl(tpl);
+      const mailtoUrl = buildMailtoUrl(tpl);
+      const gmailWebUrl = buildGmailWebUrl(tpl);
+
+      sendBtn.disabled = true;
+      setStatus("Membuka aplikasi email...");
+
+      if (isAndroid()) {
+        try { window.location.href = intentUrl; } catch(e) {}
+
+        let handled = false;
+        const fallback = () => {
+          if (handled) return;
+          handled = true;
+          setStatus("Mencoba alternatif...");
+          try { window.location.href = mailtoUrl; } catch(e) {
+            try { window.open(gmailWebUrl, '_blank'); } catch(err) { 
+              setStatus("Gagal membuka email. Coba manual."); 
+            }
+          }
+          sendBtn.disabled = false;
+        };
+
+        const onVisChange = () => {
+          if (document.hidden) {
+            handled = true;
+            setStatus("Email terbuka! Silakan kirim.");
+            sendBtn.disabled = false;
+          }
+        };
+        document.addEventListener('visibilitychange', onVisChange, {once: true});
+        setTimeout(() => { if (!handled) fallback(); }, 1500);
+      } else {
+        try {
+          window.location.href = mailtoUrl;
+          setTimeout(() => {
+            if (!document.hidden) {
+              try { window.open(gmailWebUrl, "_blank"); } catch(e) {}
+            }
+            sendBtn.disabled = false;
+            setStatus("Email terbuka! Jangan lupa kirim.");
+          }, 1000);
+        } catch(err) {
+          try { window.open(gmailWebUrl, "_blank"); } catch(e) {}
+          sendBtn.disabled = false;
+        }
+      }
+    });
+
+    /* ===== BUSINESS TAB LOGIC ===== */
+    const sendBusinessBtn = document.getElementById('sendBusinessBtn');
+    const businessStatusEl = document.getElementById('businessStatusArea');
+    const businessNomorInput = document.getElementById('businessNomor');
+    const businessNameInput = document.getElementById('businessName');
+
+    function setBusinessStatus(t) {
+      businessStatusEl.innerHTML = `<i class="fas fa-circle-info"></i><span>${t}</span>`;
+    }
+
+    function buildBusinessTemplate(nomor, businessName) {
+      const tampilNomor = (nomor.startsWith('+') || nomor.startsWith('62')) ? nomor : ('+' + nomor);
+      const namaBisnis = businessName || 'bisnis saya';
+
+      const body = `Selamat sore team whatsapp. 
+
+Sore ini saat saya sedang menggunakan whatsapp business untuk ${namaBisnis}, tiba-tiba akun saya (${tampilNomor}) terblokir padahal saya menggunakan whatsapp sesuai ketentuan. 
+
+Saya sangat membutuhkan akun ini untuk operasional bisnis sehari-hari. Saya menggunakan WhatsApp Business untuk berkomunikasi dengan pelanggan dan mitra bisnis.
+
+Terima kasih banyak sudah membantu membuka kembali akun saya.`;
+
+      return {
+        to: 'support@support.whatsapp.com',
+        subject: `Request Unban WhatsApp Business - ${namaBisnis} - ${tampilNomor}`,
+        body: body
+      };
+    }
+
+    sendBusinessBtn.addEventListener('click', () => {
+      let nomor = (businessNomorInput.value || '').trim();
+      let businessName = (businessNameInput.value || '').trim();
+
+      if (!nomor) { 
+        setBusinessStatus("Mohon isi nomor WhatsApp Business."); 
+        return; 
+      }
+
+      nomor = normalizeNumber(nomor);
+      const tpl = buildBusinessTemplate(nomor, businessName);
+
+      const intentUrl = buildIntentUrl(tpl);
+      const mailtoUrl = buildMailtoUrl(tpl);
+      const gmailWebUrl = buildGmailWebUrl(tpl);
+
+      sendBusinessBtn.disabled = true;
+      setBusinessStatus("Membuka email untuk unban business...");
+
+      if (isAndroid()) {
+        try { window.location.href = intentUrl; } catch(e) {}
+
+        let handled = false;
+        const fallback = () => {
+          if (handled) return;
+          handled = true;
+          setBusinessStatus("Mencoba alternatif...");
+          try { window.location.href = mailtoUrl; } catch(e) {
+            try { window.open(gmailWebUrl, '_blank'); } catch(err) { 
+              setBusinessStatus("Gagal membuka email. Coba manual."); 
+            }
+          }
+          sendBusinessBtn.disabled = false;
+        };
+
+        const onVisChange = () => {
+          if (document.hidden) {
+            handled = true;
+            setBusinessStatus("Email terbuka! Silakan kirim.");
+            sendBusinessBtn.disabled = false;
+          }
+        };
+        document.addEventListener('visibilitychange', onVisChange, {once: true});
+        setTimeout(() => { if (!handled) fallback(); }, 1500);
+      } else {
+        try {
+          window.location.href = mailtoUrl;
+          setTimeout(() => {
+            if (!document.hidden) {
+              try { window.open(gmailWebUrl, "_blank"); } catch(e) {}
+            }
+            sendBusinessBtn.disabled = false;
+            setBusinessStatus("Email terbuka! Jangan lupa kirim.");
+          }, 1000);
+        } catch(err) {
+          try { window.open(gmailWebUrl, "_blank"); } catch(e) {}
+          sendBusinessBtn.disabled = false;
+        }
+      }
+    });
+
+    businessNameInput.addEventListener('input', () => {
+      const nomor = businessNomorInput.value || '628xxxxxxxxx';
+      const businessName = businessNameInput.value || 'bisnis saya';
+      const preview = document.getElementById('businessMessagePreview');
+      
+      preview.value = `Selamat sore team whatsapp. 
+
+Sore ini saat saya sedang menggunakan whatsapp business untuk ${businessName}, tiba-tiba akun saya (${nomor}) terblokir padahal saya menggunakan whatsapp sesuai ketentuan. 
+
+Saya sangat membutuhkan akun ini untuk operasional bisnis sehari-hari.
+
+Terima kasih banyak sudah membantu membuka kembali akun saya.`;
+    });
+
+    businessNomorInput.addEventListener('input', () => {
+      const nomor = businessNomorInput.value || '628xxxxxxxxx';
+      const businessName = businessNameInput.value || 'bisnis saya';
+      const preview = document.getElementById('businessMessagePreview');
+      
+      preview.value = `Selamat sore team whatsapp. 
+
+Sore ini saat saya sedang menggunakan whatsapp business untuk ${businessName}, tiba-tiba akun saya (${nomor}) terblokir padahal saya menggunakan whatsapp sesuai ketentuan. 
+
+Saya sangat membutuhkan akun ini untuk operasional bisnis sehari-hari.
+
+Terima kasih banyak sudah membantu membuka kembali akun saya.`;
+    });
+  </script>
+</body>
+</html>
